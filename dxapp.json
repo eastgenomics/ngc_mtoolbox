@@ -1,0 +1,71 @@
+{
+  "name": "ngc_mtoolbox",
+  "title": "MToolBox is a pipeline to reconstruct and analyze human mitochondrial DNA from high throughput sequencing data.",
+  "summary": "MToolBox includes an updated computational strategy to assemble mitochondrial genomes from Whole Exome and/or Genome Sequencing (PMID: 22669646) and an improved fragment-classify tool (PMID:22139932) for haplogroup assignment, functional and prioritization analysis of mitochondrial variants.",
+  "dxapi": "1.0.0",
+  "version": "1.2.1",
+  "inputSpec": [
+    {
+      "name": "input_bam_file",
+      "label": "Input Array of BAM files",
+      "class": "array:file",
+      "optional": false,
+      "patterns": ["*.bam", "*.bai"],
+      "help": ""
+    },
+    {
+      "name": "input_ref_file",
+      "label": "Input mitochondria reference genome files",
+      "class": "array:file",
+      "optional": false,
+      "patterns": ["*.fa", "*.fai", "*.gz"],
+      "help": ""
+    },
+    {
+      "name": "mtb_docker",
+      "label": "Input MToolBox_v1.2.1 Docker Image",
+      "class": "file",
+      "optional": false,
+      "patterns": ["*.tar.gz"],
+      "help": ""
+    }
+  ],
+  "outputSpec": [
+    {
+      "name": "outfiles",
+      "label": "array of output files",
+      "class": "array:file",
+      "patterns": [
+        "*"
+      ],
+      "help": ""
+    }
+  ],
+  "runSpec": {
+    "timeoutPolicy": {
+      "*": {
+        "hours": 48
+      }
+    },
+    "interpreter": "bash",
+    "file": "src/code.sh",
+    "distribution": "Ubuntu",
+    "release": "20.04",
+    "version": "0"
+  },
+  "access": {
+    "network": [
+      "*"
+    ],
+    "project": "CONTRIBUTE"
+  },
+  "regionalOptions": {
+    "aws:us-east-1": {
+      "systemRequirements": {
+        "*": {
+          "instanceType": "mem1_ssd1_v2_x4"
+        }
+      }
+    }
+  }
+}
