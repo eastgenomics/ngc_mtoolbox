@@ -31,11 +31,11 @@ main() {
 
     mtbcaller_id=$(docker images --format="{{.Repository}} {{.ID}}" | grep "mtoolbox" | cut -d' ' -f2)
 
-    #move these files into the location: /src/MToolBox/genome_fasta
-   
-    mkdir -p /src/MToolBox/genome_fasta
 
-    mv ~/reffiles/*.* /src/MToolBox/genome_fasta/
+    #mkdir -p /src/MToolBox/genome_fasta
+
+    #mv /myfiles/reffiles/*.* /src/MToolBox/genome_fasta/
+
     
     for BamFileName in bamfiles/*.bam
     do
@@ -60,9 +60,9 @@ main() {
         #print the contents of tmp file
         cat /home/dnanexus/input.conf
 
-
         #Run SMNCaller
         docker run -v /home/dnanexus:/myfiles -w /myfiles $mtbcaller_id /src/MToolBox/MToolBox/MToolBox.sh -i /myfiles/input.conf
+        
     done
     #Upload results
     dx-upload-all-outputs --parallel
