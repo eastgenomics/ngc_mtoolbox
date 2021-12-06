@@ -32,23 +32,27 @@ main() {
     mtbcaller_id=$(docker images --format="{{.Repository}} {{.ID}}" | grep "mtoolbox" | cut -d' ' -f2)
 
     #move these files into the location: /src/MToolBox/genome_fasta
-    #mv ~/reffiles/*.* /src/MToolBox/genome_fasta/
+   
+    mkdir -p /src/MToolBox/genome_fasta
 
+    mv ~/reffiles/*.* /src/MToolBox/genome_fasta/
+    
     for BamFileName in bamfiles/*.bam
     do
-
+    	#Remove bamfiles from the BAamFileName variable
+        BamFileName=${BamFileName/bamfiles\//}
 
         #Create temp file to input MToolBox config
         touch /home/dnanexus/input.conf
-        echo "mtdb_fasta=/myfiles/reffiles/chrM.fa" >> /home/dnanexus/input.conf
-		echo "hg19_fasta=/myfiles/hg19RCRS.fa" >> /home/dnanexus/input.conf
+        echo "mtdb_fasta=chrM.fa" >> /home/dnanexus/input.conf
+		echo "hg19_fasta=hg19RCRS.fa" >> /home/dnanexus/input.conf
 		echo "mtdb=chrM" >> /home/dnanexus/input.conf
 		echo "humandb=hg19RCRS" >> /home/dnanexus/input.conf
-		#echo "input_path=/myfiles/" >> /home/dnanexus/input.conf
-		echo "output_name=$BamFileName" >> /home/dnanexus/input.conf
+		echo "input_path=/myfiles/bamfiles/" >> /home/dnanexus/input.conf
+		#echo "output_name=sample" >> /home/dnanexus/input.conf
 		echo "input_type=bam" >> /home/dnanexus/input.conf
 		echo "ref=RCRS" >> /home/dnanexus/input.conf
-		echo "vcf_name=$BamFileName" >> /home/dnanexus/input.conf
+		#echo "vcf_name=sample" >> /home/dnanexus/input.conf
 		echo "UseMarkDuplicates=true" >> /home/dnanexus/input.conf
 		echo "hf_max=0.8" >> /home/dnanexus/input.conf
 		echo "hf_min=0.05" >> /home/dnanexus/input.conf
@@ -56,8 +60,6 @@ main() {
         #print the contents of tmp file
         cat /home/dnanexus/input.conf
 
-    	#change the bam file name
-        BamFileName=${BamFileName/bamfiles\//}
 
         #Run SMNCaller
         docker run -v /home/dnanexus:/myfiles -w /myfiles $mtbcaller_id /src/MToolBox/MToolBox/MToolBox.sh -i /myfiles/input.conf
