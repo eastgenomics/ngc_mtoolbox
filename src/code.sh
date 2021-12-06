@@ -44,8 +44,8 @@ main() {
 
         #Create temp file to input MToolBox config
         touch /home/dnanexus/input.conf
-        echo "mtdb_fasta=chrM.fa" >> /home/dnanexus/input.conf
-		echo "hg19_fasta=hg19RCRS.fa" >> /home/dnanexus/input.conf
+        echo "mtdb_fasta=/myfiles/reffiles/chrM.fa" >> /home/dnanexus/input.conf
+		echo "hg19_fasta=/myfiles/reffiles/hg19RCRS.fa" >> /home/dnanexus/input.conf
 		echo "mtdb=chrM" >> /home/dnanexus/input.conf
 		echo "humandb=hg19RCRS" >> /home/dnanexus/input.conf
 		echo "input_path=/myfiles/bamfiles/" >> /home/dnanexus/input.conf
