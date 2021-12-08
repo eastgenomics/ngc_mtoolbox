@@ -15,10 +15,18 @@
     },
     {
       "name": "input_ref_file",
-      "label": "Input mitochondria reference genome files",
+      "label": "Input mt-db files",
       "class": "array:file",
       "optional": false,
-      "patterns": ["*.fa", "*.fai", "*.gz"],
+      "patterns": ["*.fa", "*.fai"],
+      "help": ""
+    },
+    {
+      "name": "input_gmap_file",
+      "label": "Input gmap-db files",
+      "class": "array:file",
+      "optional": false,
+      "patterns": ["*"],
       "help": ""
     },
     {
