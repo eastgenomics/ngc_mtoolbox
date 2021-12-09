@@ -80,7 +80,7 @@ main() {
         cat /home/dnanexus/input.conf
         echo "ConfigNameEnd"
 
-        #Run SMNCaller
+        #Run mtbCaller
         docker run -v /home/dnanexus:/myfiles -w /myfiles $mtbcaller_id /src/MToolBox/MToolBox/MToolBox.sh -i /myfiles/input.conf
 
         #copy results files to home dir
