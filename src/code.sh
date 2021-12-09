@@ -6,6 +6,7 @@ main() {
     echo "Value of input_ref_file: '${input_ref_file[@]}'"
     echo "Value of input_gmap_file: '${input_gmap_file[@]}'"
     echo "Value of mtb_docker: '$mtb_docker'"
+    echo "Value of sam_docker: '$sam_docker'"
 
     time dx-download-all-inputs --parallel
 
@@ -36,6 +37,10 @@ main() {
 
     mtbcaller_id=$(docker images --format="{{.Repository}} {{.ID}}" | grep "mtoolbox" | cut -d' ' -f2)
 
+    docker load -i "$sam_docker_path"
+
+    samcaller_id=$(docker images --format="{{.Repository}} {{.ID}}" | grep "samtools" | cut -d' ' -f2)
+
     for file in bamfiles/*.bam
     do
         filename="$(basename "$file")";
@@ -43,9 +48,13 @@ main() {
         echo "BAMFILE: $BamFileName"
 
         mkdir -p /home/dnanexus/$BamFileName
-        cp ~/bamfiles/$filename /home/dnanexus/$BamFileName/
-        cp ~/bamfiles/$filename.bai /home/dnanexus/$BamFileName/
-
+        #cp ~/bamfiles/$filename /home/dnanexus/$BamFileName/
+        #cp ~/bamfiles/$filename.bai /home/dnanexus/$BamFileName/
+        
+        #Run samCaller
+        docker run -v /home/dnanexus:/mysamfiles -w /mysamfiles $samcaller_id view -b /mysamfiles/bamfiles/$filename MT chrM -o /mysamfiles/$BamFileName/$BamFileName.bam
+        
+        docker run -v /home/dnanexus:/mysamfiles -w /mysamfiles $samcaller_id index /mysamfiles/$BamFileName/$BamFileName.bam
         #check file copy into folder
         ls -l /home/dnanexus/$BamFileName/$filename
 

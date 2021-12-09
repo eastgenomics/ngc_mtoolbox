@@ -36,6 +36,14 @@
       "optional": false,
       "patterns": ["*.tar.gz"],
       "help": ""
+    },
+    {
+      "name": "sam_docker",
+      "label": "Input Samtools_v1.14 Docker Image",
+      "class": "file",
+      "optional": false,
+      "patterns": ["*.tar.gz"],
+      "help": ""
     }
   ],
   "outputSpec": [
